@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ChatService } from "src/application/services/chat.service";
-import { CreateChatRoomUseCase } from "src/application/use-cases/chat-room/create-chat-room.user-case";
+import { CreateChatRoomUseCase } from "src/application/use-cases/chat-room/create-chat-room.use-case";
 import { SendMessageUseCase } from "src/application/use-cases/message/send-message.use-case";
 import { ChatRoomEntity } from "src/infrastructure/entities/typeorm-chat-room.entity";
 import { MessageEntity } from "src/infrastructure/entities/typeorm-message.entity";

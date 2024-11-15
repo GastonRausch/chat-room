@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { ChatRoom } from "src/core/entities/chat-room.entity";
 import { Message } from "src/core/entities/message.entity";
 
+import { CreateChatRoomUseCase } from "../use-cases/chat-room/create-chat-room.use-case";
 import { GetMessagesFromRoomUseCase } from "../use-cases/chat-room/get-messages-from-room.use-case";
 import { GetRoomsUseCase } from "../use-cases/chat-room/get-rooms.use-case";
 import { JoinRoomUseCase } from "../use-cases/chat-room/join-room.user-case";
 import { SendMessageUseCase } from "../use-cases/message/send-message.use-case";
-import { CreateChatRoomUseCase } from "../use-cases/chat-room/create-chat-room.use-case";
 
 @Injectable()
 export class ChatService {

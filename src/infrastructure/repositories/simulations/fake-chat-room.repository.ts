@@ -31,4 +31,6 @@ export class SimChatRoomRepository implements IChatRoomRepository {
   generateId(): string {
     return Math.random().toString(36).substr(2, 9);
   }
+
+  find: () => Promise<ChatRoom[]>;
 }

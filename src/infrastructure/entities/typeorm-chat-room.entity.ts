@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import { ChatRoom } from "src/core/entities/chat-room.entity";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
 
@@ -13,4 +14,14 @@ export class ChatRoomEntity {
 
     @Column("varchar", { array: true })
     usersId: string[];
+
+    static toDomainObject(chatRoomEntity: ChatRoomEntity): ChatRoom {
+        const chatRoom = new ChatRoom()
+
+        chatRoom.id = chatRoomEntity.id
+        chatRoom.name = chatRoomEntity.name
+        chatRoom.usersId = chatRoomEntity.usersId
+
+        return chatRoom
+    }
 }
