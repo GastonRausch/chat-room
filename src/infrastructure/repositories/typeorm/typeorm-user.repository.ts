@@ -16,9 +16,9 @@ export class TypeOrmUserRepository implements IUserRepository {
         try{
             const userEntity = new UserEntity();
             userEntity.userName = user.username;
-            userEntity.passwordHash = user.passwordHash;
+            userEntity.passwordHashed = user.passwordHashed;
             await this.userRepository.save(userEntity);
-            return new User(userEntity.id, userEntity.userName, userEntity.passwordHash);
+            return new User(userEntity.id, userEntity.userName, userEntity.passwordHashed);
         } catch (error) {
             console.error('[TypeOrmUserRepository][saveUser] error:', error);
             throw error;
@@ -31,19 +31,9 @@ export class TypeOrmUserRepository implements IUserRepository {
             if (!entity) {
                 throw new Error('User not found');
             }
-            return new User(entity.id, entity.userName, entity.passwordHash);
+            return new User(entity.id, entity.userName, entity.passwordHashed);
         } catch (error) {
             console.error('[TypeOrmUserRepository][findByUserName] error:', error);
-            throw error;
-        }
-    }
-
-    async validatePassword(user: User, password: string): Promise<boolean> {
-        try {
-            const entity = await this.userRepository.findOneBy({userName: user.username});
-            return entity.passwordHash === user.passwordHash;
-        } catch (error) {
-            console.error('[TypeOrmUserRepository][validatePassword] error:', error);
             throw error;
         }
     }
@@ -55,7 +45,7 @@ export class TypeOrmUserRepository implements IUserRepository {
     async findByUserId(userId: string): Promise<User> {
         try {
             const entity = await this.userRepository.findOneBy({id: userId});
-            return new User(entity.id, entity.userName, entity.passwordHash);
+            return new User(entity.id, entity.userName, entity.passwordHashed);
         } catch (error) {
             console.error('[TypeOrmUserRepository][findByUserId] error:', error);
             throw error;

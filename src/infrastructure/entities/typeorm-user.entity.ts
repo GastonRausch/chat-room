@@ -11,5 +11,5 @@ export class UserEntity {
     userName: string;
 
     @Column()
-    passwordHash: string;
+    passwordHashed: string;
 }

@@ -5,5 +5,4 @@ export class IUserRepository {
   generateId: () => string;
   findByUserName: (userName: string) => Promise<User>;
   findByUserId: (userId: string) => Promise<User>;
-  validatePassword: (user: User, password: string) => Promise<boolean>;
 }
