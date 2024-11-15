@@ -5,6 +5,7 @@ import { LoginUseCase } from "src/application/use-cases/users/login.use-case";
 import { RegisterUseCase } from "src/application/use-cases/users/register.use-case";
 import { UserEntity } from "src/infrastructure/entities/typeorm-user.entity";
 import { TypeOrmUserRepository } from "src/infrastructure/repositories/typeorm/typeorm-user.repository";
+import { BcryptHashService } from "src/infrastructure/services/bcrypt-hash.service";
 import { UserController } from "../controllers/user.controller";
 
 @Module({
@@ -17,6 +18,10 @@ import { UserController } from "../controllers/user.controller";
         {
             provide: 'UserRepository',
             useClass: TypeOrmUserRepository,
+        },
+        {
+            provide: 'HashService',
+            useClass: BcryptHashService,
         }
     ]
 })

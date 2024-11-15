@@ -2,10 +2,14 @@ import { User } from 'src/core/entities/user.entity';
 import { IUserRepository } from 'src/core/interfaces/user.repository';
 import { LoginDTO } from '../../dto/login.dto';
 import { HashService } from 'src/application/services/hash.service';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class LoginUseCase {
   constructor(
+    @Inject('UserRepository')
     private userRepository: IUserRepository,
+    @Inject('HashService')
     private readonly hashService: HashService,
   ) {}
 

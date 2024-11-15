@@ -8,6 +8,7 @@ export class RegisterUseCase {
   constructor(
     @Inject('UserRepository')
     private readonly userRepository: IUserRepository,
+    @Inject('HashService')
     private readonly hashService: HashService,
   ) {}
 
