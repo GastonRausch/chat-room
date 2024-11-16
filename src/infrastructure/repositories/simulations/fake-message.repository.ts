@@ -10,10 +10,6 @@ export class SimMessageRepository implements MessageRepository {
         this.messages.push(message);
     }
 
-    generateId(): string {
-        return Math.random().toString(36).substring(2);
-    }
-
     async findByRoomId(roomId: string): Promise<Message[]>{
         return this.messages.filter((message)=>{
             message.chatRoomId === roomId

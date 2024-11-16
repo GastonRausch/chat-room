@@ -38,10 +38,6 @@ export class TypeOrmUserRepository implements UserRepository {
         }
     }
 
-    generateId(): string {
-        return '';
-    }
-
     async findByUserId(userId: string): Promise<User> {
         try {
             const userEntity = await this.userRepository.findOneBy({id: userId});

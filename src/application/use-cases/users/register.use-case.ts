@@ -16,11 +16,10 @@ export class RegisterUseCase {
 
   async execute(username: string, password: string): Promise<UserResponseDTO> {
     try {
-      const id = this.userRepository.generateId();
 
       const passwordHash = await this.hashService.hashPassword(password);
 
-      const user = new User(id, username, passwordHash);
+      const user = new User(username, passwordHash);
 
       await this.userRepository.saveUser(user);
 

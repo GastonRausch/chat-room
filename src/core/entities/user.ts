@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export class User {
   id: string;
   username: string;
@@ -6,12 +8,11 @@ export class User {
   createdAt: Date;
 
   constructor(
-    id: string,
     username: string,
     passwordHashed: string,
     status: string = 'offline',
   ) {
-    this.id = id;
+    this.id = uuidv4();
     this.username = username;
     this.passwordHashed = passwordHashed;
     this.status = status;
@@ -20,7 +21,6 @@ export class User {
 
   static fromData(data: any){
     const instance = new this(
-        data.id,
         data.username,
         data.passwordHashed,
         data.status

@@ -20,14 +20,11 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
     if (!chatRoomEntity) {
       return null;
     }
-    return ChatRoom.create(
-      chatRoomEntity.id,
-      chatRoomEntity.name,
-      chatRoomEntity.usersId,
-    );
-  }
-  generateId(): string {
-    return '';
+    return ChatRoom.fromData({
+      id,
+      name: chatRoomEntity.name,
+      usersId: chatRoomEntity.usersId,
+    });
   }
   async saveChatRoom(chatRoom: ChatRoom): Promise<ChatRoom> {
     try {

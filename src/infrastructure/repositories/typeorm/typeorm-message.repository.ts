@@ -21,10 +21,6 @@ export class TypeOrmMessageRepository implements MessageRepository {
     }
   }
 
-  generateId(): string {
-    return '';
-  }
-
   async findByRoomId(chatRoomId: string): Promise<Message[]> {
     const messageEntity = await this.messageRepository.find({
       where:{ chatRoomId }
@@ -42,5 +38,7 @@ export class TypeOrmMessageRepository implements MessageRepository {
         timestamp: message.timestamp,
       }))
     })
+
+    return messages
   }
 }
