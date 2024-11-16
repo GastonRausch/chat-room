@@ -3,7 +3,7 @@ import { ChatRoom } from "src/core/entities/chat-room";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
 
-@Entity()
+@Entity({name: 'chat-room'})
 export class ChatRoomEntity {
     @PrimaryColumn({type:'varchar'})
     id: string = v4();
@@ -12,7 +12,7 @@ export class ChatRoomEntity {
     @IsNotEmpty()
     name: string;
 
-    @Column("varchar", { array: true })
+    @Column("varchar", { array: true, nullable: true })
     usersId: string[];
 
     static toDomainObject(chatRoomEntity: ChatRoomEntity): ChatRoom {
