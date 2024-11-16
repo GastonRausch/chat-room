@@ -1,30 +1,40 @@
-import { User } from 'src/core/entities/user.entity';
-import { IUserRepository } from 'src/core/interfaces/user.repository';
-import { LoginDTO } from '../../dto/login.dto';
-import { HashService } from 'src/application/services/hash.service';
 import { Inject, Injectable } from '@nestjs/common';
+import { LoginResponseDTO } from 'src/application/dto/login-response.dto';
+import { HashService } from 'src/application/interfaces/hash-service.interface';
+import { JWTService } from 'src/application/interfaces/jwt-service.interface';
+import { UserRepository } from 'src/core/interfaces/user.repository';
 
 @Injectable()
 export class LoginUseCase {
   constructor(
     @Inject('UserRepository')
-    private userRepository: IUserRepository,
+    private userRepository: UserRepository,
     @Inject('HashService')
     private readonly hashService: HashService,
+    @Inject('JWTService')
+    private readonly jwtService: JWTService,
   ) {}
 
-  async execute(userDto: LoginDTO): Promise<User> {
-    const user = await this.userRepository.findByUserName(userDto.username);
-    if (!user) {
-      throw new Error('User not found');
-    }
+  async execute(username: string, password: string): Promise<LoginResponseDTO> {
+    try {
+      const user = await this.userRepository.findByUserName(username);
+      if (!user) {
+        throw new Error(`User doesn't exist`);
+      }
 
-    if (
-      !this.hashService.comparePassword(userDto.password, user.passwordHashed)
-    ) {
-      throw new Error('Invalid credentials');
-    }
+      if (! await this.hashService.comparePassword(password, user.passwordHashed)) {
+        throw new Error('Invalid credentials');
+      }
 
-    return user;
+      const payload = { sub: user.id, username: user.username };
+
+      const access_token = await this.jwtService.generateToken(payload);
+      return {
+        access_token,
+      };
+    } catch (error) {
+      console.log('Error while trying to login', { error: error.stack });
+      throw error;
+    }
   }
 }

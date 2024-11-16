@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChatModule } from './application/adapters/modules/chat.module';
-import { UserModule } from './application/adapters/modules/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ChatModule } from './application/modules/chat.module';
+import { UserModule } from './application/modules/user.module';
 
 @Module({
   imports: [

@@ -1,5 +1,5 @@
-import { HashService } from 'src/application/services/hash.service';
 import * as bcrypt from 'bcrypt';
+import { HashService } from 'src/application/interfaces/hash-service.interface';
 
 export class BcryptHashService implements HashService {
   async hashPassword(password: string): Promise<string> {

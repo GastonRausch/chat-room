@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChatRoom } from 'src/core/entities/chat-room.entity';
-import { IChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
+import { ChatRoom } from 'src/core/entities/chat-room';
+import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
 import { ChatRoomEntity } from 'src/infrastructure/entities/typeorm-chat-room.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class TypeOrmChatRepository implements IChatRoomRepository {
+export class TypeOrmChatRepository implements ChatRoomRepository {
   constructor(
     @InjectRepository(ChatRoomEntity)
     private readonly chatRoomRepository: Repository<ChatRoomEntity>,

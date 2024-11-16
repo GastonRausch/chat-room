@@ -1,11 +1,11 @@
 import { Inject } from "@nestjs/common";
-import { ChatRoom } from "src/core/entities/chat-room.entity";
-import { IChatRoomRepository } from "src/core/interfaces/chat-room.repository";
+import { ChatRoom } from "src/core/entities/chat-room";
+import { ChatRoomRepository } from "src/core/interfaces/chat-room.repository";
 
 export class CreateChatRoomUseCase {
     constructor(
         @Inject('ChatRoomRepository')
-        private readonly chatRoomRepository: IChatRoomRepository,
+        private readonly chatRoomRepository: ChatRoomRepository,
         ) {}
     
       async execute(roomName: string): Promise<ChatRoom> {

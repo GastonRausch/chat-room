@@ -1,6 +1,6 @@
-import { Message } from "../entities/message.entity";
+import { Message } from "../entities/message";
 
-export class IMessageRepository {
+export class MessageRepository {
     saveMessage: (message: Message) => void;
     generateId: () => string;
     findByRoomId: (roomId: string)=> Promise<Message[]>

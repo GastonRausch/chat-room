@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { User } from "src/core/entities/user.entity";
-import { LoginDTO } from "../dto/login.dto";
-import { RegisterDTO } from "../dto/register.dto";
+import { LoginResponseDTO } from "../dto/login-response.dto";
+import { UserResponseDTO } from "../dto/user-response.dto";
 import { LoginUseCase } from "../use-cases/users/login.use-case";
 import { RegisterUseCase } from "../use-cases/users/register.use-case";
 
@@ -12,13 +11,13 @@ export class UserService {
         private readonly loginUseCase: LoginUseCase,
     ) {}
     
-    async register(user: RegisterDTO): Promise<User> {
+    async register(user: string, password: string): Promise<UserResponseDTO> {
         console.debug('[UserService][register]');
-        return this.registerUseCase.execute(user.username, user.password);
+        return this.registerUseCase.execute(user, password);
     }
 
-    async login(loginDto: LoginDTO): Promise<User> {
+    async login(user: string, password: string): Promise<LoginResponseDTO> {
         console.debug('[UserService][login]');
-        return this.loginUseCase.execute(loginDto);
+        return this.loginUseCase.execute(user, password);
     }
 }

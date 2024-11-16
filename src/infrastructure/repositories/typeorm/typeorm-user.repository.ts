@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/core/entities/user.entity";
-import { IUserRepository } from "src/core/interfaces/user.repository";
+import { User } from "src/core/entities/user";
+import { UserRepository } from "src/core/interfaces/user.repository";
 import { UserEntity } from "src/infrastructure/entities/typeorm-user.entity";
 import { Repository } from "typeorm";
 
 
 @Injectable()
-export class TypeOrmUserRepository implements IUserRepository {
+export class TypeOrmUserRepository implements UserRepository {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
@@ -18,7 +18,7 @@ export class TypeOrmUserRepository implements IUserRepository {
             userEntity.userName = user.username;
             userEntity.passwordHashed = user.passwordHashed;
             await this.userRepository.save(userEntity);
-            return new User(userEntity.id, userEntity.userName, userEntity.passwordHashed);
+            return userEntity.toDomainObject()
         } catch (error) {
             console.error('[TypeOrmUserRepository][saveUser] error:', error);
             throw error;
@@ -27,11 +27,11 @@ export class TypeOrmUserRepository implements IUserRepository {
 
     async findByUserName(userName: string): Promise<User> {
         try {
-            const entity = await this.userRepository.findOneBy({userName: userName});
-            if (!entity) {
+            const userEntity = await this.userRepository.findOneBy({userName: userName});
+            if (!userEntity) {
                 throw new Error('User not found');
             }
-            return new User(entity.id, entity.userName, entity.passwordHashed);
+            return userEntity.toDomainObject()
         } catch (error) {
             console.error('[TypeOrmUserRepository][findByUserName] error:', error);
             throw error;
@@ -44,8 +44,8 @@ export class TypeOrmUserRepository implements IUserRepository {
 
     async findByUserId(userId: string): Promise<User> {
         try {
-            const entity = await this.userRepository.findOneBy({id: userId});
-            return new User(entity.id, entity.userName, entity.passwordHashed);
+            const userEntity = await this.userRepository.findOneBy({id: userId});
+            return userEntity.toDomainObject()
         } catch (error) {
             console.error('[TypeOrmUserRepository][findByUserId] error:', error);
             throw error;

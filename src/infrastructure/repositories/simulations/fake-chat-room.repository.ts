@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ChatRoom } from 'src/core/entities/chat-room.entity';
-import { IChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
+import { ChatRoom } from 'src/core/entities/chat-room';
+import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
 
 @Injectable()
-export class SimChatRoomRepository implements IChatRoomRepository {
+export class SimChatRoomRepository implements ChatRoomRepository {
   private chatRooms: ChatRoom[] = [];
 
   saveChatRoom(chatRoom: ChatRoom): Promise<ChatRoom> {

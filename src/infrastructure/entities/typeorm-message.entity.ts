@@ -1,8 +1,8 @@
-import { Message } from "src/core/entities/message.entity";
+import { Message } from "src/core/entities/message";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 } from 'uuid';
 
-@Entity()
+@Entity({name: 'message'})
 export class MessageEntity{
     @PrimaryColumn({type:'varchar'})
     id: string = v4();

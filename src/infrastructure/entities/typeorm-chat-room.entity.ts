@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { ChatRoom } from "src/core/entities/chat-room.entity";
+import { ChatRoom } from "src/core/entities/chat-room";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
 
