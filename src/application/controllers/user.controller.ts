@@ -1,8 +1,9 @@
-import { Body, Controller, HttpCode, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
 import { LoginDTO } from "src/application/dto/login.dto";
 import { RegisterDTO } from "src/application/dto/register.dto";
 import { UserService } from "src/application/services/user.service";
 import { LoginResponseDTO } from "../dto/login-response.dto";
+import { UserInfoDTO } from "../dto/user-info.dto";
 import { UserResponseDTO } from "../dto/user-response.dto";
 
 @Controller('user')
@@ -20,4 +21,10 @@ export class UserController {
     async login(@Body() loginData: LoginDTO): Promise<LoginResponseDTO> {
         return this.userService.login(loginData.username, loginData.password);
     }
+
+    @Get(':id')
+    async getUserInfo(@Param('id') userId: string): Promise<UserInfoDTO>{
+        return this.userService.getUserInfo(userId);
+    }
+
 }
