@@ -1,11 +1,11 @@
 export class UserResponseDTO {
   id: string;
-  username: string;
+  userName: string;
   createdAt: Date;
 
-  constructor(id: string, username: string, createdAt: Date) {
+  constructor(id: string, userName: string, createdAt: Date) {
     this.id = id;
-    this.username = username;
+    this.userName = userName;
     this.createdAt = createdAt;
   }
 }

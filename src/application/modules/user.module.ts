@@ -8,6 +8,7 @@ import { TypeOrmUserRepository } from 'src/infrastructure/repositories/typeorm/t
 import { BcryptHashService } from 'src/infrastructure/services/bcrypt-hash.service';
 import { JWtService } from 'src/infrastructure/services/jwt.service';
 import { UserController } from '../controllers/user.controller';
+import { GetUserInfoUseCase } from '../use-cases/users/get-user-info.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -16,6 +17,7 @@ import { UserController } from '../controllers/user.controller';
     UserService,
     LoginUseCase,
     RegisterUseCase,
+    GetUserInfoUseCase,
     {
       provide: 'UserRepository',
       useClass: TypeOrmUserRepository,

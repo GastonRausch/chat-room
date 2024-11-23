@@ -34,7 +34,6 @@ export class ChatController {
     );
   }
 
-
   @Post(':id/join')
   @HttpCode(200)
   async joinRoom(

@@ -13,13 +13,13 @@ export class UserController {
     @Post('register')
     @HttpCode(201)
     async register(@Body() user: RegisterDTO): Promise<UserResponseDTO> {
-        return this.userService.register(user.username, user.password);
+        return this.userService.register(user.userName, user.password);
     }
 
     @Post('login')
     @HttpCode(200)
     async login(@Body() loginData: LoginDTO): Promise<LoginResponseDTO> {
-        return this.userService.login(loginData.username, loginData.password);
+        return this.userService.login(loginData.userName, loginData.password);
     }
 
     @Get(':id')

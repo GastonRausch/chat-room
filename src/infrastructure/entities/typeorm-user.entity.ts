@@ -5,7 +5,7 @@ import { v4 } from "uuid";
 @Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryColumn({type:'varchar'})
-    id: string = v4();
+    id: string;
 
     @Column()
     userName: string;
@@ -14,7 +14,11 @@ export class UserEntity {
     passwordHashed: string;
 
     toDomainObject(){
-        const instance = User.fromData(this)
+        const instance = User.fromData({
+            id: this.id,
+            userName: this.userName,
+            passwordHashed: this.passwordHashed,
+        })
         return instance
     }
 }

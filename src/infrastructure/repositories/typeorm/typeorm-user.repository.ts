@@ -15,8 +15,9 @@ export class TypeOrmUserRepository implements UserRepository {
     async saveUser(user: User): Promise<User> {
         try{
             const userEntity = new UserEntity();
-            userEntity.userName = user.username;
+            userEntity.userName = user.userName;
             userEntity.passwordHashed = user.passwordHashed;
+            userEntity.id = user.id
             await this.userRepository.save(userEntity);
             return userEntity.toDomainObject()
         } catch (error) {
@@ -41,6 +42,10 @@ export class TypeOrmUserRepository implements UserRepository {
     async findByUserId(userId: string): Promise<User> {
         try {
             const userEntity = await this.userRepository.findOneBy({id: userId});
+            if (!userEntity) {
+                throw new Error('User not found');
+            }
+            console.log('[findByUserId][userEntity]', {userEntity})
             return userEntity.toDomainObject()
         } catch (error) {
             console.error('[TypeOrmUserRepository][findByUserId] error:', error);

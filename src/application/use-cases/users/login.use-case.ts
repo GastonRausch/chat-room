@@ -15,9 +15,9 @@ export class LoginUseCase {
     private readonly jwtService: JWTService,
   ) {}
 
-  async execute(username: string, password: string): Promise<LoginResponseDTO> {
+  async execute(userName: string, password: string): Promise<LoginResponseDTO> {
     try {
-      const user = await this.userRepository.findByUserName(username);
+      const user = await this.userRepository.findByUserName(userName);
       if (!user) {
         throw new Error(`User doesn't exist`);
       }
@@ -26,7 +26,7 @@ export class LoginUseCase {
         throw new Error('Invalid credentials');
       }
 
-      const payload = { sub: user.id, username: user.username };
+      const payload = { sub: user.id, userName: user.userName };
 
       const access_token = await this.jwtService.generateToken(payload);
       return {

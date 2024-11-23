@@ -14,12 +14,13 @@ export class RegisterUseCase {
     private readonly hashService: HashService,
   ) {}
 
-  async execute(username: string, password: string): Promise<UserResponseDTO> {
+  async execute(userName: string, password: string): Promise<UserResponseDTO> {
     try {
 
       const passwordHash = await this.hashService.hashPassword(password);
 
-      const user = new User(username, passwordHash);
+      const user = new User(userName, passwordHash);
+      console.log('[RegisterUseCase][execute]', user)
 
       await this.userRepository.saveUser(user);
 
