@@ -7,6 +7,7 @@ export class ChatRoomMapper {
       chatRoom.id,
       chatRoom.name,
       chatRoom.usersId,
+      chatRoom.isPublic,
     );
   }
 }

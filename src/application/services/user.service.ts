@@ -15,12 +15,10 @@ export class UserService {
     ) {}
     
     async register(user: string, password: string): Promise<UserResponseDTO> {
-        console.debug('[UserService][register]');
         return this.registerUseCase.execute(user, password);
     }
 
     async login(user: string, password: string): Promise<LoginResponseDTO> {
-        console.debug('[UserService][login]');
         return this.loginUseCase.execute(user, password);
     }
 

@@ -16,17 +16,14 @@ export class RegisterUseCase {
 
   async execute(userName: string, password: string): Promise<UserResponseDTO> {
     try {
-
       const passwordHash = await this.hashService.hashPassword(password);
-
       const user = new User(userName, passwordHash);
-      console.log('[RegisterUseCase][execute]', user)
 
       await this.userRepository.saveUser(user);
 
       return UserMapper.toDTO(user);
     } catch (error) {
-      console.error('[RegisterUseCase][execute] error:', error);
+      console.error('[RegisterUseCase][execute] error:', error)
       throw error;
     }
   }
