@@ -31,6 +31,7 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
       const chatRoomEntity = new ChatRoomEntity();
       chatRoomEntity.name = chatRoom.name;
       chatRoomEntity.usersId = chatRoom.usersId;
+      chatRoomEntity.id = chatRoom.id;
       await this.chatRoomRepository.save(chatRoomEntity);
       console.debug(
         '[TypeOrmChatRepository][saveChatRoom] chatRoomEntity:',

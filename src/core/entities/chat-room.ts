@@ -4,14 +4,16 @@ export class ChatRoom {
   id: string;
   name: string;
   usersId: string[];
+  isPublic: boolean
 
   constructor() {}
 
-  public static create(name: string, usersId: string[]) {
+  public static create(name: string, usersId: string[], isPublic: boolean) {
     const instance = new this();
     instance.id = uuidv4();
     instance.name = name;
     instance.usersId = usersId;
+    instance.isPublic = isPublic;
     return instance;
   }
 

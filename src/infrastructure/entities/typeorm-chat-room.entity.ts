@@ -6,7 +6,7 @@ import { v4 } from "uuid";
 @Entity({name: 'chat-room'})
 export class ChatRoomEntity {
     @PrimaryColumn({type:'varchar'})
-    id: string = v4();
+    id: string;
 
     @Column()
     @IsNotEmpty()

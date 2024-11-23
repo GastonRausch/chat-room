@@ -7,6 +7,7 @@ import { GetMessagesFromRoomUseCase } from "../use-cases/chat-room/get-messages-
 import { GetRoomsUseCase } from "../use-cases/chat-room/get-rooms.use-case";
 import { JoinRoomUseCase } from "../use-cases/chat-room/join-room.user-case";
 import { SendMessageUseCase } from "../use-cases/message/send-message.use-case";
+import { ChatRoomResponseDTO } from "../dto/chat-room-response.dto";
 
 @Injectable()
 export class ChatService {
@@ -23,10 +24,10 @@ export class ChatService {
         return this.sendMessageUseCase.execute(senderId, chatRoomId, content);
     }
 
-    async createRoom(roomName: string): Promise<ChatRoom> {
+    async createRoom(roomName: string, isPublic: boolean): Promise<ChatRoomResponseDTO> {
         console.debug('[ChatService][createRoom]');
         try{
-            const chatRoom = await this.createChatRoomUseCase.execute(roomName);
+            const chatRoom = await this.createChatRoomUseCase.execute(roomName, isPublic);
             return chatRoom;
         } catch (error) {
             console.error('[ChatService][createRoom] error:', error);

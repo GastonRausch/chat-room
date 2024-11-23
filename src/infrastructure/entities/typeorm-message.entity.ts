@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 @Entity({name: 'message'})
 export class MessageEntity{
     @PrimaryColumn({type:'varchar'})
-    id: string = v4();
+    id: string;
 
     @Column()
     senderId: string;
