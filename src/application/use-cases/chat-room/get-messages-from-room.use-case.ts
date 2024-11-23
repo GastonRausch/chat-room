@@ -1,16 +1,16 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ChatRoom } from 'src/core/entities/chat-room.entity';
-import { Message } from 'src/core/entities/message.entity';
-import { IChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
-import { IMessageRepository } from 'src/core/interfaces/message.repository';
+import { ChatRoom } from 'src/core/entities/chat-room';
+import { Message } from 'src/core/entities/message';
+import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
+import { MessageRepository } from 'src/core/interfaces/message.repository';
 
 @Injectable()
 export class GetMessagesFromRoomUseCase {
   constructor(
     @Inject('ChatRoomRepository')
-    private readonly chatRoomRepository: IChatRoomRepository,
+    private readonly chatRoomRepository: ChatRoomRepository,
     @Inject('MessageRepository')
-    private readonly messageRepository: IMessageRepository
+    private readonly messageRepository: MessageRepository
     ) {}
 
   async execute(roomId: string): Promise<Message[]> {

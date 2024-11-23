@@ -1,10 +1,11 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Res } from '@nestjs/common';
 import { ChatService } from 'src/application/services/chat.service';
-import { ChatRoom } from 'src/core/entities/chat-room.entity';
-import { Message } from 'src/core/entities/message.entity';
+import { ChatRoom } from 'src/core/entities/chat-room';
+import { Message } from 'src/core/entities/message';
 import { CreateRoomDTO } from '../dto/create-room.dto';
 import { SendMessageDTO } from '../dto/send-message.dto';
 import { JoinRoomDTO } from '../dto/join-room.dto';
+import { ChatRoomResponseDTO } from '../dto/chat-room-response.dto';
 
 @Controller('rooms')
 export class ChatController {
@@ -12,8 +13,8 @@ export class ChatController {
 
   @Post()
   @HttpCode(201)
-  async createRoom(@Body() createRoomDto: CreateRoomDTO): Promise<ChatRoom> {
-    return this.chatService.createRoom(createRoomDto.roomName);
+  async createRoom(@Body() createRoomDto: CreateRoomDTO): Promise<ChatRoomResponseDTO> {
+    return this.chatService.createRoom(createRoomDto.roomName, createRoomDto.isPublic);
   }
 
   @Get()
@@ -21,10 +22,10 @@ export class ChatController {
     return this.chatService.getRooms();
   }
 
-  @Post(':roomId/messages')
+  @Post(':id/messages')
   @HttpCode(200)
   async sendMessage(
-    @Param('roomId') roomId: string,
+    @Param('id') roomId: string,
     @Body() sendMessageDto: SendMessageDTO
   ): Promise<Message> {
     return this.chatService.sendMessage(
@@ -34,11 +35,10 @@ export class ChatController {
     );
   }
 
-
-  @Post(':roomId/join')
+  @Post(':id/join')
   @HttpCode(200)
   async joinRoom(
-    @Param('roomId') roomId: string,
+    @Param('id') roomId: string,
     @Body() joinRoomDto: JoinRoomDTO): Promise<void>{
     return this.chatService.join(roomId, joinRoomDto.userId)
   }

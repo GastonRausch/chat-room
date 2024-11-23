@@ -1,15 +1,24 @@
+import { User } from "src/core/entities/user";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
 
-
-@Entity()
+@Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryColumn({type:'varchar'})
-    id: string = v4();
+    id: string;
 
     @Column()
     userName: string;
 
     @Column()
-    passwordHash: string;
+    passwordHashed: string;
+
+    toDomainObject(){
+        const instance = User.fromData({
+            id: this.id,
+            userName: this.userName,
+            passwordHashed: this.passwordHashed,
+        })
+        return instance
+    }
 }

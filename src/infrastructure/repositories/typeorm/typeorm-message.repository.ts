@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Message } from 'src/core/entities/message.entity';
-import { IMessageRepository } from 'src/core/interfaces/message.repository';
+import { Message } from 'src/core/entities/message';
+import { MessageRepository } from 'src/core/interfaces/message.repository';
 import { MessageEntity } from 'src/infrastructure/entities/typeorm-message.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class TypeOrmMessageRepository implements IMessageRepository {
+export class TypeOrmMessageRepository implements MessageRepository {
   constructor(
     @InjectRepository(MessageEntity)
     private readonly messageRepository: Repository<MessageEntity>,
@@ -19,10 +19,6 @@ export class TypeOrmMessageRepository implements IMessageRepository {
       console.error('[TypeOrmMessageRepository][saveMessage] error:', error);
       throw error;
     }
-  }
-
-  generateId(): string {
-    return '';
   }
 
   async findByRoomId(chatRoomId: string): Promise<Message[]> {
@@ -42,5 +38,7 @@ export class TypeOrmMessageRepository implements IMessageRepository {
         timestamp: message.timestamp,
       }))
     })
+
+    return messages
   }
 }

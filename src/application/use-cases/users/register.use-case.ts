@@ -1,21 +1,29 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { User } from "src/core/entities/user.entity";
-import { IUserRepository } from "src/core/interfaces/user.repository";
+import { Inject, Injectable } from '@nestjs/common';
+import { UserResponseDTO } from 'src/application/dto/user-response.dto';
+import { HashService } from 'src/application/interfaces/hash-service.interface';
+import { UserMapper } from 'src/application/mappers/user.mapper';
+import { User } from 'src/core/entities/user';
+import { UserRepository } from 'src/core/interfaces/user.repository';
 
 @Injectable()
 export class RegisterUseCase {
   constructor(
     @Inject('UserRepository')
-    private readonly userRepository: IUserRepository
+    private readonly userRepository: UserRepository,
+    @Inject('HashService')
+    private readonly hashService: HashService,
   ) {}
 
-  async execute(username: string, passwordHash:string, ): Promise<User> {
+  async execute(userName: string, password: string): Promise<UserResponseDTO> {
     try {
-        const id = this.userRepository.generateId();
-        const user = new User(id, username, passwordHash);
-      return await this.userRepository.saveUser(user);
+      const passwordHash = await this.hashService.hashPassword(password);
+      const user = new User(userName, passwordHash);
+
+      await this.userRepository.saveUser(user);
+
+      return UserMapper.toDTO(user);
     } catch (error) {
-      console.error('[RegisterUseCase][execute] error:', error);
+      console.error('[RegisterUseCase][execute] error:', error)
       throw error;
     }
   }

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChatModule } from './application/adapters/modules/chat.module';
-import { UserModule } from './application/adapters/modules/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ChatModule } from './application/modules/chat.module';
+import { UserModule } from './application/modules/user.module';
 
 @Module({
   imports: [
@@ -15,11 +15,11 @@ import { AppService } from './app.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
+        host: configService.get<string>('DB_HOST') || 'localhost',
         port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
+        username: configService.get<string>('DB_USERNAME') || 'admin',
+        password: configService.get<string>('DB_PASSWORD') || 'admin',
+        database: configService.get<string>('DB_NAME') || 'chat-room-db',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
         logging: true,        
