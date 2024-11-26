@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/core/entities/user";
+import { UserNotFoundException } from "src/core/exceptions/user_not_found.exception";
 import { UserRepository } from "src/core/interfaces/user.repository";
 import { UserEntity } from "src/infrastructure/entities/typeorm-user.entity";
 import { Repository } from "typeorm";
@@ -30,7 +31,7 @@ export class TypeOrmUserRepository implements UserRepository {
         try {
             const userEntity = await this.userRepository.findOneBy({userName: userName});
             if (!userEntity) {
-                throw new Error('User not found');
+                throw new UserNotFoundException(userName);
             }
             return userEntity.toDomainObject()
         } catch (error) {
@@ -43,7 +44,7 @@ export class TypeOrmUserRepository implements UserRepository {
         try {
             const userEntity = await this.userRepository.findOneBy({id: userId});
             if (!userEntity) {
-                throw new Error('User not found');
+                throw new UserNotFoundException(userId);
             }
             console.log('[findByUserId][userEntity]', {userEntity})
             return userEntity.toDomainObject()

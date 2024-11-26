@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { LoginResponseDTO } from 'src/application/dto/login-response.dto';
 import { HashService } from 'src/application/interfaces/hash-service.interface';
 import { JWTService } from 'src/application/interfaces/jwt-service.interface';
+import { UserNotFoundException } from 'src/core/exceptions/user_not_found.exception';
 import { UserRepository } from 'src/core/interfaces/user.repository';
 
 @Injectable()
@@ -18,12 +19,15 @@ export class LoginUseCase {
   async execute(userName: string, password: string): Promise<LoginResponseDTO> {
     try {
       const user = await this.userRepository.findByUserName(userName);
+
       if (!user) {
-        throw new Error(`User doesn't exist`);
+        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
       }
 
-      if (! await this.hashService.comparePassword(password, user.passwordHashed)) {
-        throw new Error('Invalid credentials');
+      if (
+        !(await this.hashService.comparePassword(password, user.passwordHashed))
+      ) {
+        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
       }
 
       const payload = { sub: user.id, userName: user.userName };
@@ -33,8 +37,10 @@ export class LoginUseCase {
         access_token,
       };
     } catch (error) {
-      console.log('Error while trying to login', { error: error.stack });
-      throw error;
+      if (error instanceof UserNotFoundException) {
+        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      }
+      throw error
     }
   }
 }
