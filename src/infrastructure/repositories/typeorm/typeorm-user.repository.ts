@@ -15,10 +15,7 @@ export class TypeOrmUserRepository implements UserRepository {
     ){}
     async saveUser(user: User): Promise<User> {
         try{
-            const userEntity = new UserEntity();
-            userEntity.userName = user.userName;
-            userEntity.passwordHashed = user.passwordHashed;
-            userEntity.id = user.id
+            const userEntity = UserEntity.fromDomainObject(user)
             await this.userRepository.save(userEntity);
             return userEntity.toDomainObject()
         } catch (error) {

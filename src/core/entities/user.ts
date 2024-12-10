@@ -6,6 +6,7 @@ export class User {
   passwordHashed: string;
   status: string;
   createdAt: Date;
+  modifiedAt?: Date | null
 
   constructor(
     userName: string,
@@ -23,8 +24,11 @@ export class User {
     const instance = new this(
         data.userName,
         data.passwordHashed,
-        data.status
+        data.status,
     )
+    instance.createdAt = data.createdAt
+    instance.modifiedAt = data.modifiedAt
+
     return instance
   }
 }
