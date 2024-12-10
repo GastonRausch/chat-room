@@ -7,7 +7,7 @@ export class UserEntity {
     @PrimaryColumn({type:'varchar'})
     id: string;
 
-    @Column()
+    @Column({unique: true})
     userName: string;
 
     @Column()

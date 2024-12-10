@@ -9,6 +9,7 @@ import { BcryptHashService } from 'src/infrastructure/services/bcrypt-hash.servi
 import { JWtService } from 'src/infrastructure/services/jwt.service';
 import { UserController } from '../controllers/user.controller';
 import { GetUserInfoUseCase } from '../use-cases/users/get-user-info.use-case';
+import { UserUniquenessValidator } from 'src/core/services/user-uniquess.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -18,6 +19,7 @@ import { GetUserInfoUseCase } from '../use-cases/users/get-user-info.use-case';
     LoginUseCase,
     RegisterUseCase,
     GetUserInfoUseCase,
+    UserUniquenessValidator,
     {
       provide: 'UserRepository',
       useClass: TypeOrmUserRepository,
