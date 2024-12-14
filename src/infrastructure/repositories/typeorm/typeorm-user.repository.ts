@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+
 import { User } from "src/core/entities/user";
 import { UserNotFoundException } from "src/core/exceptions/user_not_found.exception";
 import { UserRepository } from "src/core/interfaces/user.repository";
 import { UserEntity } from "src/infrastructure/entities/typeorm-user.entity";
-import { Repository } from "typeorm";
-
 
 @Injectable()
 export class TypeOrmUserRepository implements UserRepository {
