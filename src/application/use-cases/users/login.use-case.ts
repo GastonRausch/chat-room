@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { LoginResponseDTO } from 'src/application/dto/login-response.dto';
 import { HashService } from 'src/application/interfaces/hash-service.interface';
 import { JWTService } from 'src/application/interfaces/jwt-service.interface';
+import { USER_PERMISSIONS } from 'src/core/common/constants';
 import { UserNotFoundException } from 'src/core/exceptions/user_not_found.exception';
 import { UserRepository } from 'src/core/interfaces/user.repository';
 
@@ -30,7 +31,7 @@ export class LoginUseCase {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
       }
 
-      const payload = { sub: user.id, userName: user.userName };
+      const payload = { sub: user.id, userName: user.userName, permissions: USER_PERMISSIONS };
 
       const access_token = await this.jwtService.generateToken(payload);
       return {

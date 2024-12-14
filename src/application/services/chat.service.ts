@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UseGuards } from "@nestjs/common";
 import { ChatRoom } from "src/core/entities/chat-room";
 import { Message } from "src/core/entities/message";
 
@@ -43,6 +43,7 @@ export class ChatService {
         return this.getMessagesFromRoomUseCase.execute(chatRoomId)
     }
 
+    
     async join(roomId: string, userId:string){
         return this.joinRoomUseCase.execute(roomId, userId)
     }

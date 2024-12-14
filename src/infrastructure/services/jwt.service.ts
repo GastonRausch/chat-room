@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { JWTService } from 'src/application/interfaces/jwt-service.interface';
 import * as jwt from 'jsonwebtoken';
+import { Injectable } from '@nestjs/common';
+
+import { JWTService } from 'src/application/interfaces/jwt-service.interface';
 
 @Injectable()
 export class JWtService implements JWTService {
@@ -10,13 +11,18 @@ export class JWtService implements JWTService {
     return jwt.sign(payload, this.secret, { expiresIn: '1h' });
   }
 
-  verifyToken(token: string): Record<string, any> {
+  verifyToken(token: string): boolean {
     try {
       jwt.verify(token, this.secret);
     } catch (error) {
       throw new Error('Invalid token');
     }
 
-    return jwt.decode(token, { json: true });
+    return true
+  }
+
+  getPermissions(token: string): string[] {
+    const jwtDecoded = jwt.decode(token, { json:true} )
+    return jwtDecoded.permissions
   }
 }

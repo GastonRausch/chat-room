@@ -43,6 +43,7 @@ export class TypeOrmUserRepository implements UserRepository {
             if (!userEntity) {
                 throw new UserNotFoundException(userId);
             }
+
             console.log('[findByUserId][userEntity]', {userEntity})
             return userEntity.toDomainObject()
         } catch (error) {

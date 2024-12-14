@@ -10,9 +10,10 @@ import { JWtService } from 'src/infrastructure/services/jwt.service';
 import { UserController } from '../controllers/user.controller';
 import { GetUserInfoUseCase } from '../use-cases/users/get-user-info.use-case';
 import { UserUniquenessValidator } from 'src/core/services/user-uniquess.service';
+import { AuthModule } from './auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [AuthModule, TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [
     UserService,
@@ -27,10 +28,6 @@ import { UserUniquenessValidator } from 'src/core/services/user-uniquess.service
     {
       provide: 'HashService',
       useClass: BcryptHashService,
-    },
-    {
-      provide: 'JWTService',
-      useClass: JWtService,
     },
   ],
 })

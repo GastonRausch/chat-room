@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Res, UseGuards } from '@nestjs/common';
+
 import { ChatService } from 'src/application/services/chat.service';
 import { ChatRoom } from 'src/core/entities/chat-room';
 import { Message } from 'src/core/entities/message';
@@ -6,7 +7,9 @@ import { CreateRoomDTO } from '../dto/create-room.dto';
 import { SendMessageDTO } from '../dto/send-message.dto';
 import { JoinRoomDTO } from '../dto/join-room.dto';
 import { ChatRoomResponseDTO } from '../dto/chat-room-response.dto';
+import { JwtAuthGuard } from '../common/jwt.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('rooms')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}

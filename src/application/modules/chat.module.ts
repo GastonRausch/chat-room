@@ -13,9 +13,10 @@ import { TypeOrmChatRepository } from "src/infrastructure/repositories/typeorm/t
 import { TypeOrmMessageRepository } from "src/infrastructure/repositories/typeorm/typeorm-message.repository";
 import { TypeOrmUserRepository } from "src/infrastructure/repositories/typeorm/typeorm-user.repository";
 import { ChatController } from "../controllers/chat.controller";
+import { AuthModule } from "./auth.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ChatRoomEntity, MessageEntity, UserEntity])],
+    imports: [AuthModule, TypeOrmModule.forFeature([ChatRoomEntity, MessageEntity, UserEntity])],
     controllers: [ChatController],
     providers: [
         ChatService,
