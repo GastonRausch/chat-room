@@ -35,7 +35,8 @@ export class LoginUseCase {
 
       const access_token = await this.jwtService.generateToken(payload);
       return {
-        access_token,
+        user_id: user.id,
+        access_token
       };
     } catch (error) {
       if (error instanceof UserNotFoundException) {

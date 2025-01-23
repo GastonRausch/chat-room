@@ -18,10 +18,10 @@ export class JwtAuthGuard implements CanActivate {
             return false
         }
 
-        if(!this.jwtService.verifyToken(token)){
-            return false
+        if(this.jwtService.verifyToken(token)){
+            return true
         }
 
-        return true
+        return false
     }
 }

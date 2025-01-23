@@ -26,6 +26,7 @@ export class User {
         data.passwordHashed,
         data.status,
     )
+    instance.id = data.id
     instance.createdAt = data.createdAt
     instance.modifiedAt = data.modifiedAt
 
