@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { LoginResponseDTO } from 'src/application/dto/login-response.dto';
+import { USER_PERMISSIONS } from 'src/application/common/constants';
+
 import { HashService } from 'src/application/interfaces/hash-service.interface';
 import { JWTService } from 'src/application/interfaces/jwt-service.interface';
-import { USER_PERMISSIONS } from 'src/core/common/constants';
-import { UserNotFoundException } from 'src/core/exceptions/user_not_found.exception';
-import { UserRepository } from 'src/core/interfaces/user.repository';
+import { Login } from 'src/domain/entities/login';
+import { UserRepository } from 'src/domain/interfaces/user.repository';
 
 @Injectable()
 export class LoginUseCase {
@@ -17,7 +17,7 @@ export class LoginUseCase {
     private readonly jwtService: JWTService,
   ) {}
 
-  async execute(userName: string, password: string): Promise<LoginResponseDTO> {
+  async execute(userName: string, password: string): Promise<Login> {
     try {
       const user = await this.userRepository.findByUserName(userName);
 
@@ -31,18 +31,20 @@ export class LoginUseCase {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
       }
 
-      const payload = { sub: user.id, userName: user.userName, permissions: USER_PERMISSIONS };
+      const payload = {
+        sub: user.id,
+        userName: user.userName,
+        permissions: USER_PERMISSIONS,
+      };
 
       const access_token = await this.jwtService.generateToken(payload);
-      return {
-        user_id: user.id,
-        access_token
-      };
-    } catch (error) {
-      if (error instanceof UserNotFoundException) {
-        throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
-      }
-      throw error
+
+      return Login.create(user.id, access_token);
+    } catch (error: any) {
+      console.error(`Error during login`, {
+        error: error.stack,
+      });
+      throw error;
     }
   }
 }

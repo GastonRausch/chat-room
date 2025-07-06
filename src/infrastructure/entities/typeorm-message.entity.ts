@@ -1,31 +1,31 @@
-import { Message } from "src/core/entities/message";
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { v4 } from 'uuid';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({name: 'message'})
-export class MessageEntity{
-    @PrimaryColumn({type:'varchar'})
-    id: string;
+import { Message } from 'src/domain/entities/message';
 
-    @Column()
-    senderId: string;
+@Entity({ name: 'message' })
+export class MessageEntity {
+  @PrimaryColumn({ type: 'varchar' })
+  id: string;
 
-    @Column()
-    chatRoomId: string;
+  @Column()
+  senderId: string;
 
-    @Column()
-    content: string;
+  @Column()
+  chatRoomId: string;
 
-    @Column({type:'bigint'})
-    timestamp: number;
+  @Column()
+  content: string;
 
-    static fromMessage(message: Message){
-        const messageEntity = new MessageEntity()
-        messageEntity.chatRoomId = message.chatRoomId
-        messageEntity.content = message.content
-        messageEntity.id = message.id
-        messageEntity.senderId = message.senderId
-        messageEntity.timestamp = message.timestamp
-        return messageEntity
-    }
+  @Column({ type: 'varchar' })
+  timestamp: string;
+
+  static fromMessage(message: Message) {
+    const messageEntity = new MessageEntity();
+    messageEntity.chatRoomId = message.chatRoomId;
+    messageEntity.content = message.content;
+    messageEntity.id = message.id;
+    messageEntity.senderId = message.senderId;
+    messageEntity.timestamp = message.timestamp;
+    return messageEntity;
+  }
 }

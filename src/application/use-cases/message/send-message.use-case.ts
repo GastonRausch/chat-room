@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Message } from 'src/core/entities/message';
-import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
-import { MessageRepository } from 'src/core/interfaces/message.repository';
-import { UserRepository } from 'src/core/interfaces/user.repository';
+import { Message } from 'src/domain/entities/message';
+import { ChatRoomRepository } from 'src/domain/interfaces/chat-room.repository';
+import { MessageRepository } from 'src/domain/interfaces/message.repository';
+import { UserRepository } from 'src/domain/interfaces/user.repository';
 
 @Injectable()
 export class SendMessageUseCase {

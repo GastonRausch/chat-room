@@ -1,9 +1,6 @@
-import {
-    Inject,
-    Injectable,
-} from '@nestjs/common';
-import { ChatRoom } from 'src/core/entities/chat-room';
-import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { ChatRoomRepository } from 'src/domain/interfaces/chat-room.repository';
 
 @Injectable()
 export class JoinRoomUseCase {

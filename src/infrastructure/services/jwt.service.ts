@@ -18,11 +18,16 @@ export class JWtService implements JWTService {
       throw new Error('Invalid token');
     }
 
-    return true
+    return true;
   }
 
   getPermissions(token: string): string[] {
-    const jwtDecoded = jwt.decode(token, { json:true} )
-    return jwtDecoded.permissions
+    const jwtDecoded = jwt.decode(token, { json: true });
+    return jwtDecoded.permissions;
+  }
+
+  getUserIdFromToken(token: string): string | null {
+    const jwtDecoded = jwt.decode(token, { json: true });
+    return jwtDecoded.sub;
   }
 }

@@ -75,7 +75,14 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "modulePaths": [
+      "<rootDir>/src/"
+    ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^src/(.+)$": "<rootDir>/src/$1",
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   }
 }

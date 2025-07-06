@@ -23,7 +23,7 @@ import { AuthModule } from './application/modules/auth.module';
         database: configService.get<string>('DB_NAME') || 'chat-room-db',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
-        logging: true,        
+        logging: true,
       }),
     }),
     AuthModule,

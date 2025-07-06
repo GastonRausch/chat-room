@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcryptjs';
+
 import { HashService } from 'src/application/interfaces/hash-service.interface';
 
 export class BcryptHashService implements HashService {
