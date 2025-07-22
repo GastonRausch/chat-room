@@ -33,4 +33,6 @@ export class SimChatRoomRepository implements ChatRoomRepository {
   }
 
   find: () => Promise<ChatRoom[]>;
+
+  countUsers: (id: string) => Promise<number>;
 }

@@ -5,4 +5,5 @@ export abstract class ChatRoomRepository {
   abstract findChatRoomById: (id: string) => Promise<ChatRoom>;
   abstract deleteChatRoom: (id: string) => Promise<boolean>;
   abstract find: () => Promise<ChatRoom[]>;
+  abstract countUsers: (id: string) => Promise<number>;
 }

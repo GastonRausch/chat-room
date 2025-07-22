@@ -10,15 +10,11 @@ export class ChatRoomEntity {
   @Column()
   name: string;
 
-  @Column('varchar', { array: true, nullable: true })
-  usersId: string[];
-
   static toDomainObject(chatRoomEntity: ChatRoomEntity): ChatRoom {
     const chatRoom = new ChatRoom();
 
     chatRoom.id = chatRoomEntity.id;
     chatRoom.name = chatRoomEntity.name;
-    chatRoom.usersId = chatRoomEntity.usersId;
 
     return chatRoom;
   }

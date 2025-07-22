@@ -1,8 +1,8 @@
 import { User } from 'src/domain/entities/user';
-import { UserResponseDTO } from '../dto/responses/user-response.dto';
+import { UserDataDTO } from '../../../../application/dto/user-data.dto';
 
 export class UserMapper {
-  static toDTO(user: User): UserResponseDTO {
-    return new UserResponseDTO(user.id, user.userName, user.createdAt);
+  static toDTO(user: User): UserDataDTO {
+    return new UserDataDTO(user.id, user.userName, user.createdAt);
   }
 }

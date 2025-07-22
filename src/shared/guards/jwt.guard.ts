@@ -26,17 +26,27 @@ export class JwtAuthGuard implements CanActivate {
       return false;
     }
 
-    if (this.jwtService.verifyToken(token)) {
-      const user = this.jwtService.getUserIdFromToken(token);
-      if (user) {
-        request['user'] = user;
-      } else {
-        console.error('[JwtAuthGuard][canActivate] User not found in token');
-        return false;
-      }
-      return true;
-    }
+    try {
+      const valid = this.jwtService.verifyToken(token);
 
-    return false;
+      if (valid) {
+        const user = this.jwtService.getUserIdFromToken(token);
+        if (user) {
+          request['user'] = user;
+        } else {
+          console.error('[JwtAuthGuard][canActivate] User not found in token');
+          return false;
+        }
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('[JwtAuthGuard][canActivate]', {
+        error_msg: error.message,
+        error_stack: error,
+      });
+      return false;
+    }
   }
 }

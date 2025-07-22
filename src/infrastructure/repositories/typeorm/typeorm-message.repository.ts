@@ -13,8 +13,8 @@ export class TypeOrmMessageRepository implements MessageRepository {
   ) {}
   saveMessage(message: Message): void {
     try {
-      const messageEntity = MessageEntity.fromMessage(message);
-      this.messageRepository.save(messageEntity);
+      const entity = MessageEntity.fromMessage(message);
+      this.messageRepository.save(entity);
     } catch (error) {
       console.error('[TypeOrmMessageRepository][saveMessage] error:', error);
       throw error;
@@ -22,14 +22,14 @@ export class TypeOrmMessageRepository implements MessageRepository {
   }
 
   async findByRoomId(chatRoomId: string): Promise<Message[]> {
-    const messageEntity = await this.messageRepository.find({
+    const entity = await this.messageRepository.find({
       where: { chatRoomId },
     });
-    if (messageEntity == null) {
+    if (entity == null) {
       return null;
     }
     const messages = [];
-    messageEntity.map((message) => {
+    entity.map((message) => {
       messages.push(
         Message.fromData({
           id: message.id,

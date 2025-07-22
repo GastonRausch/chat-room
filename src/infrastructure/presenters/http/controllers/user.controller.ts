@@ -8,13 +8,13 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { LoginDTO } from 'src/infrastructure/presenters/http/dto/requests/login.dto';
-import { RegisterDTO } from 'src/infrastructure/presenters/http/dto/requests/register.dto';
+
 import { UserService } from 'src/application/services/user.service';
-import { LoginResponseDTO } from '../dto/responses/login-response.dto';
-import { UserInfoDTO } from '../dto/responses/user-info.dto';
-import { UserResponseDTO } from '../dto/responses/user-response.dto';
 import { UserNotFoundException } from 'src/domain/exceptions/user_not_found.exception';
+import { RegisterDTO } from 'src/infrastructure/presenters/http/dto/register.dto';
+import { LoginResponseDTO } from '../../../../application/dto/login-response.dto';
+import { UserDataDTO } from '../../../../application/dto/user-data.dto';
+import { LoginDTO } from '../dto/login.dto';
 import { UserMapper } from '../mappers/user.mapper';
 
 @Controller('user')
@@ -23,7 +23,7 @@ export class UserController {
 
   @Post('register')
   @HttpCode(201)
-  async register(@Body() registerData: RegisterDTO): Promise<UserResponseDTO> {
+  async register(@Body() registerData: RegisterDTO): Promise<UserDataDTO> {
     const user = await this.userService.register(
       registerData.userName,
       registerData.password,
@@ -55,11 +55,11 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUserInfo(@Param('id') userId: string): Promise<UserInfoDTO> {
+  async getUserInfo(@Param('id') userId: string): Promise<UserDataDTO> {
     try {
       const user = await this.userService.getUserInfo(userId);
 
-      return { userName: user.userName };
+      return UserMapper.toDTO(user);
     } catch (error) {
       if (error instanceof UserNotFoundException) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);

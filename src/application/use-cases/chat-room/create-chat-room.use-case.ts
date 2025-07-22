@@ -11,7 +11,7 @@ export class CreateChatRoomUseCase {
 
   async execute(roomName: string, isPublic: boolean): Promise<ChatRoom> {
     try {
-      const chatRoom = ChatRoom.create(roomName, null, isPublic);
+      const chatRoom = ChatRoom.create(roomName, isPublic);
 
       this.chatRoomRepository.saveChatRoom(chatRoom);
 

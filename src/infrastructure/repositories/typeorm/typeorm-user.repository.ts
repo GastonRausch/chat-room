@@ -15,9 +15,9 @@ export class TypeOrmUserRepository implements UserRepository {
   ) {}
   async saveUser(user: User): Promise<User> {
     try {
-      const userEntity = UserEntity.fromDomainObject(user);
-      await this.userRepository.save(userEntity);
-      return userEntity.toDomainObject();
+      const entity = UserEntity.fromDomainObject(user);
+      await this.userRepository.save(entity);
+      return entity.toDomainObject();
     } catch (error) {
       console.error('[TypeOrmUserRepository][saveUser] error:', error);
       throw error;
@@ -26,13 +26,13 @@ export class TypeOrmUserRepository implements UserRepository {
 
   async findByUserName(userName: string): Promise<User> {
     try {
-      const userEntity = await this.userRepository.findOneBy({
+      const entity = await this.userRepository.findOneBy({
         userName: userName,
       });
-      if (!userEntity) {
+      if (!entity) {
         throw new UserNotFoundException(userName);
       }
-      return userEntity.toDomainObject();
+      return entity.toDomainObject();
     } catch (error) {
       console.error('[TypeOrmUserRepository][findByUserName] error:', error);
       throw error;
@@ -41,13 +41,13 @@ export class TypeOrmUserRepository implements UserRepository {
 
   async findByUserId(userId: string): Promise<User> {
     try {
-      const userEntity = await this.userRepository.findOneBy({ id: userId });
-      if (!userEntity) {
+      const entity = await this.userRepository.findOneBy({ id: userId });
+      if (!entity) {
         throw new UserNotFoundException(userId);
       }
 
-      console.log('[findByUserId][userEntity]', { userEntity });
-      return userEntity.toDomainObject();
+      console.log('[findByUserId][userEntity]', { userEntity: entity });
+      return entity.toDomainObject();
     } catch (error) {
       console.error('[TypeOrmUserRepository][findByUserId] error:', error);
       throw error;

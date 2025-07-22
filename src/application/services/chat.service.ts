@@ -4,9 +4,12 @@ import { ChatRoom } from 'src/domain/entities/chat-room';
 import { Message } from 'src/domain/entities/message';
 import { CreateChatRoomUseCase } from '../use-cases/chat-room/create-chat-room.use-case';
 import { GetMessagesFromRoomUseCase } from '../use-cases/chat-room/get-messages-from-room.use-case';
+import { GetRoomUseCase } from '../use-cases/chat-room/get-room.use-case';
 import { GetRoomsUseCase } from '../use-cases/chat-room/get-rooms.use-case';
+import { GetUserCountUseCase } from '../use-cases/chat-room/get-user-count.use-case';
 import { JoinRoomUseCase } from '../use-cases/chat-room/join-room.user-case';
 import { SendMessageUseCase } from '../use-cases/message/send-message.use-case';
+import { ChatRoomDataDTO } from '../dto/chat-room-response.dto';
 
 @Injectable()
 export class ChatService {
@@ -16,6 +19,8 @@ export class ChatService {
     private readonly getMessagesFromRoomUseCase: GetMessagesFromRoomUseCase,
     private readonly joinRoomUseCase: JoinRoomUseCase,
     private readonly getRoomsUseCase: GetRoomsUseCase,
+    private readonly getRoomUseCase: GetRoomUseCase,
+    private readonly getUserCountUseCase: GetUserCountUseCase,
   ) {}
 
   async sendMessage(
@@ -43,6 +48,18 @@ export class ChatService {
 
   async getRooms() {
     return this.getRoomsUseCase.execute();
+  }
+
+  async getRoomData(chatRoomId: string) {
+    const chatRoom = await this.getRoomUseCase.execute(chatRoomId);
+    const userCount = await this.getUserCountUseCase.execute(chatRoomId);
+
+    return new ChatRoomDataDTO(
+      chatRoom.id,
+      chatRoom.name,
+      chatRoom.isPublic,
+      userCount,
+    );
   }
 
   async getMessagesForRoom(chatRoomId: string) {

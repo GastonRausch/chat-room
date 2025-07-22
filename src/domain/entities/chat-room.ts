@@ -3,16 +3,14 @@ import { v4 as uuid } from 'uuid';
 export class ChatRoom {
   id: string;
   name: string;
-  usersId: string[];
   isPublic: boolean;
 
   constructor() {}
 
-  public static create(name: string, usersId: string[], isPublic: boolean) {
+  public static create(name: string, isPublic: boolean) {
     const instance = new this();
     instance.id = uuid();
     instance.name = name;
-    instance.usersId = usersId;
     instance.isPublic = isPublic;
     return instance;
   }
@@ -21,11 +19,6 @@ export class ChatRoom {
     const instance = new this();
     instance.id = data.id;
     instance.name = data.name;
-    instance.usersId = data.usersId;
     return instance;
-  }
-
-  addUser(userId: string) {
-    this.usersId.push(userId);
   }
 }

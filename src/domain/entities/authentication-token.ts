@@ -2,6 +2,7 @@ export class AuthenticationToken {
   userId: string;
   token: string;
   expiresAt: Date;
+
   constructor(userId: string, token: string, expiresAt: Date) {
     this.userId = userId;
     this.token = token;

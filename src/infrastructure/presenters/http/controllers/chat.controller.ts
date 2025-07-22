@@ -13,14 +13,12 @@ import { ChatService } from 'src/application/services/chat.service';
 import { ChatRoom } from 'src/domain/entities/chat-room';
 import { Message } from 'src/domain/entities/message';
 import { JwtAuthGuard } from 'src/shared/guards/jwt.guard';
-import { ChatRoomResponseDTO } from '../dto/responses/chat-room-response.dto';
-import { CreateRoomDTO } from '../dto/requests/create-room.dto';
-import { JoinRoomDTO } from '../dto/requests/join-room.dto';
-import { SendMessageDTO } from '../dto/requests/send-message.dto';
-import { ChatRoomMapper } from '../mappers/chat-room.mapper';
+import { ChatRoomDataDTO } from '../../../../application/dto/chat-room-response.dto';
+import { CreateRoomDTO } from '../dto/create-room.dto';
+import { SendMessageDTO } from '../dto/send-message.dto';
 
-@UseGuards(JwtAuthGuard)
 @Controller('rooms')
+@UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
@@ -28,20 +26,28 @@ export class ChatController {
   @HttpCode(201)
   async createRoom(
     @Body() createRoomDto: CreateRoomDTO,
-  ): Promise<ChatRoomResponseDTO> {
+  ): Promise<ChatRoomDataDTO> {
     try {
       const chatRoom = await this.chatService.createRoom(
         createRoomDto.roomName,
         createRoomDto.isPublic,
       );
 
-      return ChatRoomMapper.toDTO(chatRoom);
+      return {
+        numberOfUsers: 0,
+        ...chatRoom,
+      };
     } catch (error) {}
   }
 
   @Get()
   async getAllRooms(): Promise<ChatRoom[]> {
     return this.chatService.getRooms();
+  }
+
+  @Get(':id')
+  async getRoomInfo(@Param('id') roomId: string): Promise<ChatRoomDataDTO> {
+    return this.chatService.getRoomData(roomId);
   }
 
   @Post(':id/messages')
@@ -53,8 +59,6 @@ export class ChatController {
   ): Promise<Message> {
     const userId = request.user;
 
-    console.log({ userId });
-
     return this.chatService.sendMessage(roomId, userId, sendMessageDto.content);
   }
 
@@ -62,8 +66,10 @@ export class ChatController {
   @HttpCode(200)
   async joinRoom(
     @Param('id') roomId: string,
-    @Body() joinRoomDto: JoinRoomDTO,
+    @Request() request: any,
   ): Promise<void> {
-    return this.chatService.join(roomId, joinRoomDto.userId);
+    const userId = request.user;
+
+    return this.chatService.join(roomId, userId);
   }
 }
