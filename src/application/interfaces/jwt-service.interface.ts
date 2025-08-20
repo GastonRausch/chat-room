@@ -3,4 +3,5 @@ export abstract class JWTService {
   abstract verifyToken(token: string): boolean;
   abstract getPermissions(token: string): string[];
   abstract getUserIdFromToken(token: string): string | null;
+  abstract decodeToken(token: string): Record<string, any> | null;
 }

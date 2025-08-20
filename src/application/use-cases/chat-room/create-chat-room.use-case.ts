@@ -13,7 +13,7 @@ export class CreateChatRoomUseCase {
     try {
       const chatRoom = ChatRoom.create(roomName, isPublic);
 
-      this.chatRoomRepository.saveChatRoom(chatRoom);
+      await this.chatRoomRepository.saveChatRoom(chatRoom);
 
       return chatRoom;
     } catch (error) {

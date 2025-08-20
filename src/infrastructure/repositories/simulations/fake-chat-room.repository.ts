@@ -35,4 +35,8 @@ export class SimChatRoomRepository implements ChatRoomRepository {
   find: () => Promise<ChatRoom[]>;
 
   countUsers: (id: string) => Promise<number>;
+
+  userHasAccess: (chatRoomId: string, userId: string) => Promise<boolean>;
+
+  getUserRooms: (userId: string) => Promise<ChatRoom[]>;
 }

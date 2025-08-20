@@ -17,6 +17,7 @@ export class JoinRoomUseCase {
 
   async execute(roomId: string, userId: string): Promise<void> {
     try {
+      console.log('JoinRoomUseCase', roomId);
       const chatRoom = await this.chatRoomRepository.findChatRoomById(roomId);
       if (!chatRoom) {
         throw new Error('Chat room not found');

@@ -30,4 +30,13 @@ export class JWtService implements JWTService {
     const jwtDecoded = jwt.decode(token, { json: true });
     return jwtDecoded.sub;
   }
+
+  decodeToken(token: string): Record<string, any> | null {
+    try {
+      return jwt.decode(token, { json: true });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
 }

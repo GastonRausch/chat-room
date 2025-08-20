@@ -19,7 +19,7 @@ export class TypeOrmChatRoomUsersRepository implements ChatRoomUsersRepository {
         .createQueryBuilder()
         .select()
         .where('chat_room_id = :id', { id: chatRoomId })
-        .orWhere('user_id = :id', { id: userId })
+        .andWhere('user_id = :id', { id: userId })
         .getOne();
 
       if (oldEntity) {

@@ -75,4 +75,28 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
 
     return number;
   }
+
+  async userHasAccess(chatRoomId: string, userId: string): Promise<boolean> {
+    const queryBuilder = this.chatRoomUsersRepository.createQueryBuilder();
+
+    const count = await queryBuilder
+      .select()
+      .where('chat_room_id = :chatRoomId', { chatRoomId })
+      .andWhere('user_id = :userId', { userId })
+      .getCount();
+
+    return count > 0;
+  }
+
+  async getUserRooms(userId: string): Promise<ChatRoom[]> {
+    const rooms = await this.chatRoomRepository
+      .createQueryBuilder('cr')
+      .leftJoin('chat_room_users', 'cru', 'cr.id = cru.chat_room_id')
+      .where('cru.user_id = :userId', { userId })
+      .getRawMany();
+
+    return rooms.map((room) =>
+      ChatRoom.fromData({ id: room.cr_id, name: room.cr_name }),
+    );
+  }
 }

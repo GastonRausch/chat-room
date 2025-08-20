@@ -6,7 +6,7 @@ import { MessageRepository } from 'src/domain/interfaces/message.repository';
 import { UserRepository } from 'src/domain/interfaces/user.repository';
 
 @Injectable()
-export class SendMessageUseCase {
+export class ProcessMessageUseCase {
   constructor(
     @Inject('ChatRoomRepository')
     private readonly chatRoomRepository: ChatRoomRepository,

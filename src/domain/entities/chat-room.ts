@@ -19,6 +19,8 @@ export class ChatRoom {
     const instance = new this();
     instance.id = data.id;
     instance.name = data.name;
+    instance.isPublic = data.isPublic;
     return instance;
   }
 }
+ 
