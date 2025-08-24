@@ -1,11 +1,11 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from 'uuid';
 
 export class Message {
   id?: string;
   senderId: string;
   chatRoomId: string;
   content: string;
-  timestamp: number;
+  timestamp: string;
 
   constructor() {}
 
@@ -13,15 +13,15 @@ export class Message {
     senderId: string,
     chatRoomId: string,
     content: string,
-    timestamp: number = Date.now(),
+    timestamp: string = Date.now().toString(),
   ) {
     const instance = new this();
-    instance.id = uuidv4();
+    instance.id = uuid();
     instance.senderId = senderId;
     instance.chatRoomId = chatRoomId;
     instance.content = content;
     instance.timestamp = timestamp;
-    return instance
+    return instance;
   }
 
   public static fromData(data: any) {
@@ -30,7 +30,7 @@ export class Message {
     instance.chatRoomId = data.chatRoomId;
     instance.content = data.content;
     instance.timestamp = data.timestamp;
-    instance.senderId = data.senderId
-    return instance
+    instance.senderId = data.senderId;
+    return instance;
   }
 }

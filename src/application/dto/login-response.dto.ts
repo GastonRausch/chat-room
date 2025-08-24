@@ -1,7 +1,11 @@
 export class LoginResponseDTO {
-  access_token: string;
+  userId: string;
+  accessToken: string;
+  loggedAt: string;
 
-  constructor(access_token: string) {
-    this.access_token = access_token;
+  constructor(accessToken: string, userId: string, loggedAt: string) {
+    this.accessToken = accessToken;
+    this.userId = userId;
+    this.loggedAt = loggedAt;
   }
 }

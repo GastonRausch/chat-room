@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Message } from 'src/core/entities/message';
-import { MessageRepository } from 'src/core/interfaces/message.repository';
-import { MessageEntity } from 'src/infrastructure/entities/typeorm-message.entity';
 import { Repository } from 'typeorm';
+
+import { Message } from 'src/domain/entities/message';
+import { MessageRepository } from 'src/domain/interfaces/message.repository';
+import { MessageEntity } from 'src/infrastructure/entities/typeorm-message.entity';
 
 @Injectable()
 export class TypeOrmMessageRepository implements MessageRepository {
@@ -12,9 +13,9 @@ export class TypeOrmMessageRepository implements MessageRepository {
     private readonly messageRepository: Repository<MessageEntity>,
   ) {}
   saveMessage(message: Message): void {
-    try{
-      const messageEntity = MessageEntity.fromMessage(message)
-      this.messageRepository.save(messageEntity);
+    try {
+      const entity = MessageEntity.fromMessage(message);
+      this.messageRepository.save(entity);
     } catch (error) {
       console.error('[TypeOrmMessageRepository][saveMessage] error:', error);
       throw error;
@@ -22,23 +23,25 @@ export class TypeOrmMessageRepository implements MessageRepository {
   }
 
   async findByRoomId(chatRoomId: string): Promise<Message[]> {
-    const messageEntity = await this.messageRepository.find({
-      where:{ chatRoomId }
-    })
-    if (messageEntity == null){
-      return null
+    const entity = await this.messageRepository.find({
+      where: { chatRoomId },
+    });
+    if (entity == null) {
+      return null;
     }
-    const messages = []
-    messageEntity.map((message)=>{
-      messages.push(Message.fromData({
-        id: message.id,
-        chatRoomId: message.chatRoomId,
-        content: message.content,
-        senderId: message.senderId,
-        timestamp: message.timestamp,
-      }))
-    })
+    const messages = [];
+    entity.map((message) => {
+      messages.push(
+        Message.fromData({
+          id: message.id,
+          chatRoomId: message.chatRoomId,
+          content: message.content,
+          senderId: message.senderId,
+          timestamp: message.timestamp,
+        }),
+      );
+    });
 
-    return messages
+    return messages;
   }
 }

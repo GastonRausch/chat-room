@@ -7,5 +7,5 @@ export class CreateRoomDTO {
 
   @IsOptional()
   @IsBoolean()
-  isPublic: boolean = false
+  isPublic: boolean = false;
 }

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ChatModule } from './application/modules/chat.module';
-import { UserModule } from './application/modules/user.module';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
 
 @Module({
   imports: [
@@ -22,11 +22,10 @@ import { UserModule } from './application/modules/user.module';
         database: configService.get<string>('DB_NAME') || 'chat-room-db',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
-        logging: true,        
+        logging: true,
       }),
     }),
-    ChatModule,
-    UserModule,
+    InfrastructureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

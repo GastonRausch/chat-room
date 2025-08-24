@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ChatRoom } from 'src/core/entities/chat-room';
-import { ChatRoomRepository } from 'src/core/interfaces/chat-room.repository';
+
+import { ChatRoom } from 'src/domain/entities/chat-room';
+import { ChatRoomRepository } from 'src/domain/interfaces/chat-room.repository';
 
 @Injectable()
 export class SimChatRoomRepository implements ChatRoomRepository {
@@ -8,7 +9,10 @@ export class SimChatRoomRepository implements ChatRoomRepository {
 
   saveChatRoom(chatRoom: ChatRoom): Promise<ChatRoom> {
     this.chatRooms.push(chatRoom);
-    console.debug('[SimChatRoomRepository][saveChatRoom]chatRooms', this.chatRooms);
+    console.debug(
+      '[SimChatRoomRepository][saveChatRoom]chatRooms',
+      this.chatRooms,
+    );
     return Promise.resolve(chatRoom);
   }
 
@@ -29,4 +33,10 @@ export class SimChatRoomRepository implements ChatRoomRepository {
   }
 
   find: () => Promise<ChatRoom[]>;
+
+  countUsers: (id: string) => Promise<number>;
+
+  userHasAccess: (chatRoomId: string, userId: string) => Promise<boolean>;
+
+  getUserRooms: (userId: string) => Promise<ChatRoom[]>;
 }
