@@ -7,7 +7,7 @@ export class MessageDTO {
 
   @IsString()
   @IsNotEmpty()
-  chatRoomId;
+  chatRoomId: string;
 
   @IsString()
   @IsNotEmpty()

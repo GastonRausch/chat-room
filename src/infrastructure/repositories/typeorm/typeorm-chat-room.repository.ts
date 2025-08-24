@@ -30,6 +30,8 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
     return ChatRoom.fromData({
       id,
       name: entity.name,
+      isPublic: entity.isPublic,
+      description: entity.description,
     });
   }
 
@@ -46,6 +48,8 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
       return ChatRoom.fromData({
         id: entity.id,
         name: entity.name,
+        isPublic: entity.isPublic,
+        description: entity.description,
       });
     } catch (error) {
       console.error('[TypeOrmChatRepository][saveChatRoom] error:', error);
@@ -56,8 +60,13 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
   async find(): Promise<ChatRoom[]> {
     try {
       const chatRooms = await this.chatRoomRepository.find();
-      const entities = chatRooms.map((chatRoomEntity) =>
-        ChatRoomEntity.toDomainObject(chatRoomEntity),
+      const entities = chatRooms.map((entity) =>
+        ChatRoom.fromData({
+          id: entity.id,
+          isPublic: entity.isPublic,
+          name: entity.name,
+          description: entity.description,
+        }),
       );
       return entities;
     } catch (error) {
@@ -89,14 +98,19 @@ export class TypeOrmChatRepository implements ChatRoomRepository {
   }
 
   async getUserRooms(userId: string): Promise<ChatRoom[]> {
-    const rooms = await this.chatRoomRepository
+    const entities = await this.chatRoomRepository
       .createQueryBuilder('cr')
       .leftJoin('chat_room_users', 'cru', 'cr.id = cru.chat_room_id')
       .where('cru.user_id = :userId', { userId })
       .getRawMany();
 
-    return rooms.map((room) =>
-      ChatRoom.fromData({ id: room.cr_id, name: room.cr_name }),
+    return entities.map((room) =>
+      ChatRoom.fromData({
+        id: room.cr_id,
+        name: room.cr_name,
+        isPublic: room.cr_is_public,
+        description: room.cr_description,
+      }),
     );
   }
 }

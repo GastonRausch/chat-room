@@ -10,12 +10,9 @@ export class ChatRoomEntity {
   @Column()
   name: string;
 
-  static toDomainObject(chatRoomEntity: ChatRoomEntity): ChatRoom {
-    const chatRoom = new ChatRoom();
+  @Column({ type: 'boolean', name: 'is_public', default: 'false' })
+  isPublic: boolean;
 
-    chatRoom.id = chatRoomEntity.id;
-    chatRoom.name = chatRoomEntity.name;
-
-    return chatRoom;
-  }
+  @Column({ default: null, nullable: true })
+  description?: string;
 }

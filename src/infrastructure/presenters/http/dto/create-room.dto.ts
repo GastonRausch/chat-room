@@ -8,4 +8,8 @@ export class CreateRoomDTO {
   @IsOptional()
   @IsBoolean()
   isPublic: boolean = false;
+
+  @IsString()
+  @IsOptional()
+  description: string;
 }

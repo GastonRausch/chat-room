@@ -36,12 +36,13 @@ export class ChatService {
     return this.processMessageUseCase.execute(senderId, chatRoomId, content);
   }
 
-  async createRoom(roomName: string, isPublic: boolean): Promise<ChatRoom> {
+  async createRoom(roomName: string, isPublic: boolean, description: string): Promise<ChatRoom> {
     console.debug('[ChatService][createRoom]');
     try {
       const chatRoom = await this.createChatRoomUseCase.execute(
         roomName,
         isPublic,
+        description,
       );
       return chatRoom;
     } catch (error) {
@@ -63,6 +64,7 @@ export class ChatService {
       chatRoom.name,
       chatRoom.isPublic,
       userCount,
+      chatRoom.description,
     );
   }
 

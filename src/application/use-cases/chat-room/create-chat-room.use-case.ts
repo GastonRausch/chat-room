@@ -9,9 +9,13 @@ export class CreateChatRoomUseCase {
     private readonly chatRoomRepository: ChatRoomRepository,
   ) {}
 
-  async execute(roomName: string, isPublic: boolean): Promise<ChatRoom> {
+  async execute(roomName: string, isPublic: boolean, description: string): Promise<ChatRoom> {
     try {
-      const chatRoom = ChatRoom.create(roomName, isPublic);
+      const chatRoom = ChatRoom.create({
+        isPublic: isPublic,
+        name: roomName,
+        description: description,
+      });
 
       await this.chatRoomRepository.saveChatRoom(chatRoom);
 

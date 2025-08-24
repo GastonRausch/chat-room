@@ -25,22 +25,16 @@ export class ChatController {
   async createRoom(
     @Request() req,
     @Body() createRoomDto: CreateRoomDTO,
-  ): Promise<ChatRoomDataDTO> {
-    try {
-      const chatRoom = await this.chatService.createRoom(
-        createRoomDto.roomName,
-        createRoomDto.isPublic,
-      );
+  ): Promise<void> {
+    const chatRoom = await this.chatService.createRoom(
+      createRoomDto.roomName,
+      createRoomDto.isPublic,
+      createRoomDto.description,
+    );
 
-      const userId = req.user;
+    const userId = req.user;
 
-      await this.chatService.joinRoom(chatRoom.id, userId);
-
-      return {
-        numberOfUsers: 0,
-        ...chatRoom,
-      };
-    } catch (error) {}
+    await this.chatService.joinRoom(chatRoom.id, userId);
   }
 
   @Get('/all')
@@ -57,7 +51,7 @@ export class ChatController {
   @Get()
   async getRoomsUserBelongsTo(@Request() req): Promise<ChatRoomDataDTO[]> {
     const rooms = await this.chatService.getUserRooms(req.user);
-    console.log( { rooms });
+    console.log({ rooms });
     return rooms as ChatRoomDataDTO[];
   }
 

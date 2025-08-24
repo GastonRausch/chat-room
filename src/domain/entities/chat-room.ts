@@ -1,26 +1,39 @@
 import { v4 as uuid } from 'uuid';
 
-export class ChatRoom {
+type Props = {
   id: string;
   name: string;
   isPublic: boolean;
+  description: string;
+};
 
-  constructor() {}
+type CreateProps = Omit<Props, 'id'>;
 
-  public static create(name: string, isPublic: boolean) {
-    const instance = new this();
-    instance.id = uuid();
-    instance.name = name;
-    instance.isPublic = isPublic;
-    return instance;
+export class ChatRoom implements Props {
+  readonly id: string;
+  readonly name: string;
+  readonly isPublic: boolean;
+  readonly description: string;
+
+  constructor(data: Props) {
+    Object.assign(this, data);
   }
 
-  public static fromData(data: any) {
-    const instance = new this();
-    instance.id = data.id;
-    instance.name = data.name;
-    instance.isPublic = data.isPublic;
-    return instance;
+  static create(data: CreateProps): ChatRoom {
+    return new ChatRoom({
+      id: uuid(),
+      name: data.name,
+      isPublic: data.isPublic,
+      description: data.description,
+    });
+  }
+
+  public static fromData(data: Props): ChatRoom {
+    return new ChatRoom({
+      id: data.id,
+      isPublic: data.isPublic,
+      name: data.name,
+      description: data.description,
+    })
   }
 }
- 
